@@ -7,3 +7,8 @@ test_ll_cycle
 lfsr
 bit_ops
 vector-test
+*.exe
+*.o
+*.swp
+cin.txt
+speciality
