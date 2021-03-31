@@ -7,9 +7,11 @@
 void testBranch(InstructionPtr &instruction);
 void testI(InstructionPtr &instruction);
 void testR(InstructionPtr &instruction);
+void testR2(InstructionPtr &instruction);
 void testU(InstructionPtr &instruction);
 void testUJ(InstructionPtr &instruction);
 void testAlu(InstructionPtr &instruction);
+void testAlu2(InstructionPtr &instruction);
 
 TEST_SUITE("Decoder"){
     Decoder _decoder;
@@ -223,6 +225,13 @@ TEST_SUITE("Decoder"){
     }
 
     /* YOUR CODE HERE */
+    TEST_CASE("R-Format"){
+    SUBCASE("AND2"){
+            auto instruction = _decoder.Decode(0b0000001010001110111001000110011);
+            testR2(instruction);
+            CHECK(instruction->_aluFunc == AluFunc::And);
+        }
+    }
 }
 
 void testBranch(InstructionPtr &instruction){
@@ -235,6 +244,12 @@ void testBranch(InstructionPtr &instruction){
 void testR(InstructionPtr &instruction){
     testAlu(instruction);
     CHECK(instruction->_src2.value() == 3);
+
+}
+
+void testR2(InstructionPtr &instruction){
+    testAlu2(instruction);
+    CHECK(instruction->_src2.value() == 20);
 
 }
 
@@ -257,4 +272,10 @@ void testAlu(InstructionPtr &instruction){
     CHECK(instruction->_src1.value() == 1);
     CHECK(instruction->_dst.value() == 15);
     CHECK(instruction->_type == IType::Alu);
+}
+
+void testAlu2(InstructionPtr &instruction){
+    CHECK(instruction->_src1.value() == 14);
+    CHECK(instruction->_dst.value() == 4);
+    CHECK(instruction->_type == IType::Alu);    
 }

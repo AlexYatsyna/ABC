@@ -7,9 +7,13 @@
 constexpr Word IP        = 0x200;
 constexpr Word SRCVAL1   = 1;
 constexpr Word SRCVAL2   = 2;
+constexpr Word SRCVAL3   = 14;
+constexpr Word SRCVAL4   = 20;
 
 void testAlu(InstructionPtr &instruction, Executor &exe);
+void testAlu2(InstructionPtr &instruction, Executor &exe);
 void testR(InstructionPtr &instruction, Executor &exe);
+void testR2(InstructionPtr &instruction, Executor &exe);
 void testI(InstructionPtr &instruction, Executor &exe);
 void testU(InstructionPtr &instruction, Executor &exe);
 void testBranch(InstructionPtr &instruction, Executor &exe);
@@ -237,6 +241,13 @@ TEST_SUITE("Executor"){
         }
     }
     /* YOUR CODE HERE */
+    TEST_CASE("R-Format"){
+        SUBCASE("AND2"){
+            auto instruction = _decoder.Decode(0b0000001010001110111001000110011);
+            testR2(instruction, _exe);
+            CHECK_EQ(instruction->_data, SRCVAL3 & SRCVAL4);
+        }
+    }
 }
 
 void testAlu(InstructionPtr &instruction, Executor &exe){
@@ -246,9 +257,21 @@ void testAlu(InstructionPtr &instruction, Executor &exe){
     CHECK_EQ(instruction->_nextIp, IP + 4);
 }
 
+void testAlu2(InstructionPtr &instruction, Executor &exe){
+    instruction->_src1Val = SRCVAL3;
+    exe.Execute(instruction, IP);
+
+    CHECK_EQ(instruction->_nextIp, IP + 4);
+}
+
 void testR(InstructionPtr &instruction, Executor &exe){
     instruction->_src2Val = SRCVAL2;
     testAlu(instruction, exe);
+}
+
+void testR2(InstructionPtr &instruction, Executor &exe){
+    instruction->_src2Val = SRCVAL4;
+    testAlu2(instruction, exe);
 }
 
 void testI(InstructionPtr &instruction, Executor &exe){
