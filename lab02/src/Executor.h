@@ -37,10 +37,10 @@ public:
             data = instr->_src1Val ^ secondValue;
             break;
         case AluFunc::Slt:
-            data = instr->_src1Val < secondValue;
+            data = (int32_t)instr->_src1Val < (int32_t)secondValue;
             break;
         case AluFunc::Sltu:
-            data = (uint)instr->_src1Val < (uint)secondValue;
+            data = instr->_src1Val < secondValue;
             break;
         case AluFunc::Sll:
             data = instr->_src1Val << (secondValue & 31);
@@ -49,7 +49,7 @@ public:
             data = (uint)(instr->_src1Val >> (secondValue & 31));
             break;
         case AluFunc::Sra:
-            data =instr->_src1Val >> (secondValue & 31);
+            data =(int32_t)instr->_src1Val >> (int32_t)(secondValue & 31);
             break; 
         default:
             break;
@@ -64,16 +64,16 @@ public:
             br = instr->_src1Val != instr->_src2Val;
             break;
         case BrFunc::Lt:
-            br = instr->_src1Val < instr->_src2Val;
+            br = (int32_t)instr->_src1Val < (int32_t)instr->_src2Val;
             break;
         case BrFunc::Ltu:
-            br = (uint)instr->_src1Val < (uint)instr->_src2Val;
+            br = instr->_src1Val < instr->_src2Val;
             break;
         case BrFunc::Ge:
-            br = instr->_src1Val >= instr->_src2Val;
+            br = (int32_t)instr->_src1Val >= (int32_t)instr->_src2Val;
             break;
         case BrFunc::Geu:
-            br = (uint)instr->_src1Val >= (uint)instr->_src2Val;
+            br = instr->_src1Val >= instr->_src2Val;
             break;
         case BrFunc::AT:
             br = true;
